@@ -104,4 +104,8 @@ class ItemsViewController : UITableViewController {
 //        tableView.endUpdates()
 
     }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration {
+        
+    }
 }
