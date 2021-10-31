@@ -9,8 +9,37 @@ import UIKit
 
 class ItemsViewController : UITableViewController {
     
+    /* Button and text field outlets*/
+    @IBOutlet var favoriteFilterButton: UIButton!
+    @IBOutlet var addNewButton: UIButton!
+    @IBOutlet var editButton: UIButton!
+    
+    @IBOutlet var searchField: UITextField!
+    
     /* Instance of SongItemStore to act as the model for application*/
     var songItemStore: SongItemStore!
+    
+    /* Override viewDidLoad to set ... */
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    /* Override viewWillAppear to ... */
+    override func viewWillAppear(_ animated: Bool) {
+    }
+    
+    /* Allow keyboard to be dimissed by tapping on background*/
+    @IBAction func dimissKeyboard(_ sender: UITapGestureRecognizer) {
+        searchField.resignFirstResponder()
+    }
+    
+    /* Respond to search queries everytime the text field is edited*/
+    @IBAction func searchQueryFieldEditingChanged(_ textField: UITextField) {
+        if let text = textField.text {
+            songItemStore.filterSearchTerm = text
+            tableView.reloadData()
+        }
+    }
     
     /*
      * Add a new SongItem to the model

@@ -15,22 +15,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
                         <stackView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="35" baselineRelativeArrangement="YES" id="7ha-GB-6j5">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="89"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Only Zachs Music" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cyt-1g-vXC">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="41"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                    <color key="textColor" systemColor="systemPinkColor"/>
+                                    <color key="textColor" red="0.11372549019607843" green="0.72549019607843135" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uFa-b0-ZTz">
-                                    <rect key="frame" x="0.0" y="48" width="414" height="41"/>
+                                    <rect key="frame" x="0.0" y="35" width="414" height="25"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTg-bW-YdC">
-                                            <rect key="frame" x="0.0" y="-5" width="138" height="46"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="138" height="25"/>
                                             <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" title="Edit"/>
@@ -39,7 +40,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rIH-ok-5gL">
-                                            <rect key="frame" x="138" y="-5" width="138" height="46"/>
+                                            <rect key="frame" x="138" y="0.0" width="138" height="25"/>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain">
                                                 <attributedString key="attributedTitle">
@@ -56,7 +57,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SPl-LR-81w">
-                                            <rect key="frame" x="276" y="-5" width="138" height="46"/>
+                                            <rect key="frame" x="276" y="0.0" width="138" height="19"/>
                                             <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" title="Add New"/>
@@ -65,12 +66,25 @@
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <color key="tintColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstItem="rIH-ok-5gL" firstAttribute="width" secondItem="xTg-bW-YdC" secondAttribute="width" id="keP-o8-0lf"/>
                                         <constraint firstItem="SPl-LR-81w" firstAttribute="width" secondItem="xTg-bW-YdC" secondAttribute="width" id="vYe-9U-L1b"/>
                                     </constraints>
                                 </stackView>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search query" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ihh-dF-hZo">
+                                    <rect key="frame" x="0.0" y="64" width="414" height="25"/>
+                                    <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="textColor" red="0.1137254902" green="0.72549019609999998" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                    <connections>
+                                        <action selector="searchQueryFieldEditingChanged:" destination="Mp9-8L-WTE" eventType="editingChanged" id="r9e-VF-oJr"/>
+                                    </connections>
+                                </textField>
                             </subviews>
+                            <gestureRecognizers/>
                             <constraints>
                                 <constraint firstItem="uFa-b0-ZTz" firstAttribute="width" secondItem="cyt-1g-vXC" secondAttribute="width" id="Rfq-Up-zTq"/>
                             </constraints>
@@ -104,20 +118,32 @@
                         <connections>
                             <outlet property="dataSource" destination="Mp9-8L-WTE" id="K9v-sF-FYr"/>
                             <outlet property="delegate" destination="Mp9-8L-WTE" id="9tj-eq-yl9"/>
+                            <outletCollection property="gestureRecognizers" destination="W11-NE-zvf" appends="YES" id="vEL-hy-Iyz"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="addNewButton" destination="SPl-LR-81w" id="sOj-qq-EEn"/>
+                        <outlet property="editButton" destination="xTg-bW-YdC" id="yjq-LK-j4s"/>
+                        <outlet property="favoriteFilterButton" destination="rIH-ok-5gL" id="0lf-UB-yhV"/>
+                        <outlet property="searchField" destination="Ihh-dF-hZo" id="zgG-J9-Tm8"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YzC-rG-Yoc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="W11-NE-zvf">
+                    <connections>
+                        <action selector="dimissKeyboard:" destination="Mp9-8L-WTE" id="bGB-yU-gvG"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="89.855072463768124" y="110.49107142857143"/>
         </scene>
     </scenes>
     <resources>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemPinkColor">
-            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
