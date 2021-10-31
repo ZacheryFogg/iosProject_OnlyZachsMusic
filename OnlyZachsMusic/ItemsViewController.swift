@@ -16,12 +16,12 @@ class ItemsViewController : UITableViewController {
         let newSongItem = songItemStore.createSongItem()
         
         // Determine where new item is in array
-        if let genreIndex = songItemStore.allItems.firstIndex(where: {$0.genre == newSongItem.genre}) {
-            if let index = songItemStore.allItems[genreIndex].songs.firstIndex(of: newSongItem) {
+        if let genreIndex = songItemStore.modelItems.firstIndex(where: {$0.genre == newSongItem.genre}) {
+            if let index = songItemStore.modelItems[genreIndex].songs.firstIndex(of: newSongItem) {
                 let indexPath = IndexPath(row: index, section: genreIndex)
                 
                 // If this is true, then a new section has been created
-                if songItemStore.allItems.count != tableView.numberOfSections {
+                if songItemStore.modelItems.count != tableView.numberOfSections {
                     let indexSet = IndexSet(integer: indexPath.section)
                     tableView.insertSections(indexSet, with: .fade)
 
@@ -45,27 +45,37 @@ class ItemsViewController : UITableViewController {
             setEditing(true, animated: true)
         }
     }
+    
+    @IBAction func toggleFilterOnFavorite(_ sender: UIButton){
+        songItemStore.filterOnFavorites.toggle()
+        tableView.reloadData()
+    }
     // Called when most updates happen or could have happened
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return songItemStore.allItems.count
+        return songItemStore.modelItems.count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return songItemStore.allItems[section].genre
+        return songItemStore.modelItems[section].genre
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return songItemStore.allItems[section].songs.count
+        return songItemStore.modelItems[section].songs.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        let cell = UITableViewCell(style: .value1, reuseIdentifier: "UITableViewCell")
         let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
-        let item = songItemStore.allItems[indexPath.section].songs[indexPath.row]
+        let item = songItemStore.modelItems[indexPath.section].songs[indexPath.row]
         
         cell.textLabel?.text = "\(item.title) - \(item.genre)"
         cell.detailTextLabel?.text = "\(item.length)"
         
+        if item.isFavorite {
+            cell.imageView?.image = UIImage(systemName: "heart")?.withTintColor(UIColor.systemCyan)
+        } else {
+            cell.imageView?.image = nil
+        }
         return cell
     }
     
@@ -73,7 +83,7 @@ class ItemsViewController : UITableViewController {
                             forRowAt indexPath: IndexPath) {
         // If table view is asking to commit a delete command
         if editingStyle == .delete{
-            let item = songItemStore.allItems[indexPath.section].songs[indexPath.row]
+            let item = songItemStore.modelItems[indexPath.section].songs[indexPath.row]
             // Remove item from the store
             songItemStore.removeItem(item)
             
@@ -105,7 +115,54 @@ class ItemsViewController : UITableViewController {
 
     }
     
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration {
+//    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration {
+//        let actionTitle = songItemStore.allItems[indexPath.section].songs[indexPath.row].isFavorite ? "Remove Favorite" : "Favorite"
+//        return UISwipeActionsConfiguration(actions: [UIContextualAction(style: .normal, title: actionTitle){
+//            [weak self] _,_,_ in
+//            let item = self?.songItemStore.allItems[indexPath.section].songs[indexPath.row]
+//
+//            item?.isFavorite.toggle()
+//           tableView.reloadRows(at: [indexPath], with: .automatic)
+//        }])
+//
+//    }
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        // Find the item being edited.
+        let item = songItemStore.modelItems[indexPath.section].songs[indexPath.row]
+
+        // Setup a handler to call when the user clicks on the button after swiping the item.
+        let handler: (UIContextualAction, UIView, @escaping (Bool)-> Void) -> Void = {
+            (action: UIContextualAction, view: UIView, completionHandler: @escaping (Bool)-> Void) -> Void in
+
+            // Toggle the item's "isFavorite" value.
+            self.songItemStore.modelItems[indexPath.section].songs[indexPath.row].isFavorite.toggle()
+            // Reload the item, so that it will be updated to show/hide the favorite star.
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+            // Since a favorite was added/removed, we need to update the favorites button
+            // at the top of the screen, to make sure it's properly shown or hidden based
+            // on whether the data set has any favorites.
+//            self.updateFavoritesButton()
+
+            completionHandler(true)
+        }
         
+        // Finally, setup the Action on the row.
+        let favoriteAction = UIContextualAction(style: .normal, title: "", handler: handler)
+        favoriteAction.backgroundColor = UIColor.systemTeal
+        if (item.isFavorite) {
+            favoriteAction.image = UIImage(systemName: "heart.slash.fill")?.withTintColor(UIColor.white)
+        } else {
+            favoriteAction.image = UIImage(systemName: "heart.fill")?.withTintColor(UIColor.white)
+        }
+        
+        // And return the action.
+        return UISwipeActionsConfiguration(actions: [favoriteAction])
     }
+    
+    
+//    override func tableView(_ tableView: UITableView,
+//                            targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath,
+//                            toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath
+    
 }

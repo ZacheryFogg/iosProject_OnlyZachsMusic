@@ -15,40 +15,60 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="fhq-6L-h6Z">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                        <stackView key="tableHeaderView" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="35" baselineRelativeArrangement="YES" id="7ha-GB-6j5">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="89"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lni-OD-xi3">
-                                    <rect key="frame" x="8" y="14.5" width="195" height="31"/>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" title="Edit"/>
-                                    <connections>
-                                        <action selector="toggleEditingMode:" destination="Mp9-8L-WTE" eventType="touchUpInside" id="ceN-So-IkW"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9fM-Qr-wTk">
-                                    <rect key="frame" x="211" y="14.5" width="195" height="31"/>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" title="Add"/>
-                                    <connections>
-                                        <action selector="addNewItem:" destination="Mp9-8L-WTE" eventType="touchUpInside" id="mLe-yu-7cJ"/>
-                                    </connections>
-                                </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Only Zachs Music" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cyt-1g-vXC">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="41"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                    <color key="textColor" systemColor="systemPinkColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uFa-b0-ZTz">
+                                    <rect key="frame" x="0.0" y="48" width="414" height="41"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTg-bW-YdC">
+                                            <rect key="frame" x="0.0" y="-5" width="138" height="46"/>
+                                            <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain" title="Edit"/>
+                                            <connections>
+                                                <action selector="toggleEditingMode:" destination="Mp9-8L-WTE" eventType="touchUpInside" id="po6-0Z-NN3"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rIH-ok-5gL">
+                                            <rect key="frame" x="138" y="-5" width="138" height="46"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain" title="Favorites"/>
+                                            <connections>
+                                                <action selector="toggleFilterOnFavorite:" destination="Mp9-8L-WTE" eventType="touchUpInside" id="ZL1-KD-ySD"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SPl-LR-81w">
+                                            <rect key="frame" x="276" y="-5" width="138" height="46"/>
+                                            <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain" title="Add New"/>
+                                            <connections>
+                                                <action selector="addNewItem:" destination="Mp9-8L-WTE" eventType="touchUpInside" id="uX6-ji-q8G"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="rIH-ok-5gL" firstAttribute="width" secondItem="xTg-bW-YdC" secondAttribute="width" id="keP-o8-0lf"/>
+                                        <constraint firstItem="SPl-LR-81w" firstAttribute="width" secondItem="xTg-bW-YdC" secondAttribute="width" id="vYe-9U-L1b"/>
+                                    </constraints>
+                                </stackView>
                             </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="9fM-Qr-wTk" secondAttribute="trailing" constant="8" id="6WY-0n-rge"/>
-                                <constraint firstItem="Lni-OD-xi3" firstAttribute="leading" secondItem="fhq-6L-h6Z" secondAttribute="leading" constant="8" id="8Cg-id-Ryn"/>
-                                <constraint firstItem="9fM-Qr-wTk" firstAttribute="leading" secondItem="Lni-OD-xi3" secondAttribute="trailing" constant="8" id="CeW-yM-Hs9"/>
-                                <constraint firstItem="9fM-Qr-wTk" firstAttribute="width" secondItem="Lni-OD-xi3" secondAttribute="width" id="NoU-7M-uFr"/>
-                                <constraint firstItem="9fM-Qr-wTk" firstAttribute="centerY" secondItem="fhq-6L-h6Z" secondAttribute="centerY" id="nRr-ju-2pq"/>
-                                <constraint firstItem="Lni-OD-xi3" firstAttribute="centerY" secondItem="fhq-6L-h6Z" secondAttribute="centerY" id="w81-h6-cd0"/>
+                                <constraint firstItem="uFa-b0-ZTz" firstAttribute="width" secondItem="cyt-1g-vXC" secondAttribute="width" id="Rfq-Up-zTq"/>
                             </constraints>
-                        </view>
+                        </stackView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UITableViewCell" textLabel="qr1-fO-JaD" detailTextLabel="naX-47-Pad" style="IBUITableViewCellStyleValue1" id="XdV-ln-OZL">
-                                <rect key="frame" x="0.0" y="104.5" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="133.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XdV-ln-OZL" id="zIr-iW-i67">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -80,12 +100,15 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YzC-rG-Yoc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="91" y="111"/>
+            <point key="canvasLocation" x="89.855072463768124" y="110.49107142857143"/>
         </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

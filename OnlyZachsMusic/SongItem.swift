@@ -41,10 +41,10 @@ class SongItem: Equatable {
             let genre = possibleGenres[Int(arc4random_uniform(UInt32(possibleGenres.count)))]
             
             self.init(title: "New Divide", artists: ["Linkin Park"], length: len, genre: genre,
-                      desc: "It's a good song", isFavorite: true, cover: "ur mom")
+                      desc: "It's a good song", isFavorite: false, cover: "ur mom")
         } else {
             self.init(title: "New Divide", artists: ["Linkin Park"], length: 268, genre: "Rock",
-                      desc: "It's a good song", isFavorite: true, cover: "ur mom")
+                      desc: "It's a good song", isFavorite: false, cover: "ur mom")
         }
     }
     
