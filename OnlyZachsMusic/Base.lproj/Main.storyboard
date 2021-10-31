@@ -38,12 +38,21 @@
                                                 <action selector="toggleEditingMode:" destination="Mp9-8L-WTE" eventType="touchUpInside" id="po6-0Z-NN3"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rIH-ok-5gL">
+                                        <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rIH-ok-5gL">
                                             <rect key="frame" x="138" y="-5" width="138" height="46"/>
                                             <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="plain" title="Favorites"/>
+                                            <buttonConfiguration key="configuration" style="plain">
+                                                <attributedString key="attributedTitle">
+                                                    <fragment content="Show Favorites">
+                                                        <attributes>
+                                                            <font key="NSFont" size="12" name="Helvetica"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="right" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                            </buttonConfiguration>
                                             <connections>
-                                                <action selector="toggleFilterOnFavorite:" destination="Mp9-8L-WTE" eventType="touchUpInside" id="ZL1-KD-ySD"/>
+                                                <action selector="toggleFilterOnFavorite:" destination="Mp9-8L-WTE" eventType="touchUpInside" id="8zI-Nb-Yvq"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SPl-LR-81w">

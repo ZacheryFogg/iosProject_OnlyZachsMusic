@@ -7,17 +7,30 @@
 
 import UIKit
 
+/*
+ * GenreSection is a data strucutre to represent a "genre" and all SongItems that fall into that genre.
+ * A "genre" is just a string inputed by the user and is a way to logically group SongItems.
+ *
+ * Provides functionality to append or insert SongItems into a GenreSection
+ */
 struct GenreSection {
     var genre: String?
     var songs = [SongItem] ()
     
-    mutating func addSong(_ songItem: SongItem){
+    /*
+     * Append a SongItem to the array if it is not a duplicate
+     */
+    mutating func appendSong(_ songItem: SongItem){
         if let _ = songs.firstIndex(of: songItem) {
             print("Duplicate not added")
         } else {
             self.songs.append(songItem)
         }
     }
+    
+    /*
+     * Inserta SongItem into the array at a given index if it is not a duplicate
+     */
     mutating func insertSong(_ songItem: SongItem, at index: Int){
         if let _ = songs.firstIndex(of: songItem) {
             print("Duplicate not added")
@@ -26,79 +39,95 @@ struct GenreSection {
         }
     }
 }
-
+/*
+ * SongItemStore acts as the model for this application.
+ * Stores all SongItems in a private store, but only exposes a filtered subset to the controller.
+ *
+ * Provides functionality to: add, delete, move, and filter SongItems from respective GenreSections
+ */
 class SongItemStore {
-    // "Master List" - contains all items. Is not the model for view
+    /*  Array of GenreSections to act as master list. Contains all SongItems. Is not directly exposed to the controller */
     private var masterItems = [GenreSection] ()
     
+    /* Boolean to only expose SongItems that are favorited */
     var filterOnFavorites = false
+    
+    /* String filter term to only expose SongItems that contain the term */
     var filterSearchTerm: String = ""
     
-    // Filter out songItems that are not favorited
+    /* Closure that filters out SongItems that are not favorited */
     private var favoritefilter: (SongItem) -> Bool = {
         (songItem: SongItem) -> Bool in
         return songItem.isFavorite
     }
+    
+    /* Closure that filters out SongItems that does not contain a given search term
+     * in it genre, title, artists, or description */
     private var searchTermFilter: (SongItem, String) -> Bool = {
         (songItem: SongItem, filterSearchTerm: String) -> Bool in
-        let searchTerm = filterSearchTerm.trimmingCharacters(in: .whitespacesAndNewlines)
-        if searchTerm == "" {
-            return true
-        }
-        if songItem.genre.contains(searchTerm) {
-            return true
-        } else if songItem.title.contains(searchTerm){
-            return true
-        } else if (songItem.artists.reduce("") {$0 + $1}).contains(searchTerm) {
-            return true
-        } else {
-            return false
-        }
+        let searchTerm = filterSearchTerm.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        if searchTerm == "" { return true }
+        if songItem.genre.lowercased().contains(searchTerm) { return true }
+        if songItem.title.lowercased().contains(searchTerm) { return true }
+        if (songItem.artists.reduce("") {$0 + $1}).lowercased().contains(searchTerm) { return true }
+        if let desc = songItem.desc{ if desc.lowercased().contains(searchTerm) { return true } }
+        return false
     }
     
-    // Contains only items currently being modeled (due to filtering or searching). Subset of masterItems
+    /* Array of GenreSections that has had all current filters applied to it - subset of masterItems.
+     * Is the data that is exposed to the controller to be displayed.
+     * Updated whenever filter conditions change or mastetItems is modified
+     */
     var modelItems: [GenreSection]{
         var tempItems = [GenreSection]()
-        
         for genreSec in self.masterItems{
             var genreSection = GenreSection(genre: genreSec.genre)
             for songItem in genreSec.songs{
-//                if (self.filterOnFavorites ? self.favoritefilter(songItem) : true) && self.searchTermFilter(songItem, self.filterSearchTerm){
-//                    genreSection.addSong(songItem)
-//                }
-                if (true) && self.searchTermFilter(songItem, self.filterSearchTerm){
-                    genreSection.addSong(songItem)
+                if (self.filterOnFavorites ? self.favoritefilter(songItem) : true) && self.searchTermFilter(songItem, self.filterSearchTerm){
+                    genreSection.appendSong(songItem)
                 }
             }
             if genreSection.songs.count > 0{
                 tempItems.append(genreSection)
             }
         }
+        // GenreSections should be alphabetically sorted
         tempItems.sort {$0.genre! < $1.genre!}
         return tempItems
     }
     
+    /*
+     * Initializer for SongItemStore.
+     * Calls function to create semi-random SongItem and add it to the model 5 times
+     */
     init() {
         for _ in 0..<5 {
-            createSongItem()
+            createSongItem(random: true)
         }
     }
     
-    func addItem(_ songItem: SongItem){
+    /*
+     * Append a SongItem to masterItems in appropriate GenreSection.
+     * If SongItem belongs to a new genre, then create new GenreSection and append SongItem
+     */
+    func appendSongItem(_ songItem: SongItem){
         if let genreIndex = masterItems.firstIndex(where: {$0.genre == songItem.genre}) {
-            masterItems[genreIndex].addSong(songItem)
+            masterItems[genreIndex].appendSong(songItem)
         } else {
-            var newGenreSection = GenreSection()
-            newGenreSection.genre = songItem.genre
-            newGenreSection.addSong(songItem)
+            var newGenreSection = GenreSection(genre: songItem.genre)
+            newGenreSection.appendSong(songItem)
             masterItems.append(newGenreSection)
-            
+            // GenreSections should be alphabetically sorted
             masterItems.sort {$0.genre! < $1.genre!}
         }
     }
     
-
-    func insertItem(_ songItem: SongItem, at indexPath: IndexPath){
+    /*
+     * Insert SongItem at appropriate GenreSection at given index
+     * If SongItem is inserted into a GenreSection that has a different genre then itself,
+     * its genre will be changed to match the GenreSection
+     */
+    func insertSongItem(_ songItem: SongItem, at indexPath: IndexPath){
         if masterItems[indexPath.section].genre == songItem.genre{
             masterItems[indexPath.section].insertSong(songItem, at: indexPath.row)
         } else {
@@ -107,14 +136,21 @@ class SongItemStore {
         }
     }
     
-    @discardableResult func createSongItem() -> SongItem {
-        let newSongItem = SongItem(random: true)
-        addItem(newSongItem)
+    /*
+     * Create a new SongItem and add it to masterItems
+     *
+     * Return new SongItem, discardable
+     */
+    @discardableResult func createSongItem(random: Bool) -> SongItem {
+        let newSongItem = SongItem(random: random)
+        appendSongItem(newSongItem)
         return newSongItem
     }
     
+    /*
+     * Remove the given SongItem from masterItems
+     */
     func removeItem(_ songItem: SongItem) {
-        // Use genre as key
         if let genreIndex = masterItems.firstIndex(where: {$0.genre == songItem.genre}) {
             if let index = masterItems[genreIndex].songs.firstIndex(of: songItem) {
                 masterItems[genreIndex].songs.remove(at: index)
@@ -124,20 +160,27 @@ class SongItemStore {
             }
         }
     }
-    // For now: Cannot move and item or add a new one when filtering
+    
+    /*
+     * Move a SongItem from its current index to a new given index
+     * This function will not be called if modelItems != masterItems as repositioning would not make sense
+     * when only a subset of results are being displayed
+     */
     func moveItem(from fromIndex: IndexPath, to toIndex: IndexPath){
         if fromIndex == toIndex{
             return
         }
-        // Get reference to the object being moved so we can reinsert it
-        let movedItem = modelItems[fromIndex.section].songs[fromIndex.row]
-        
-        // Remove item
+        let movedItem = masterItems[fromIndex.section].songs[fromIndex.row]
         removeItem(movedItem)
-        
-        // Reinsert at new index
-        insertItem(movedItem, at: toIndex)
+        insertSongItem(movedItem, at: toIndex)
 
+    }
+    
+    /*
+     * Return boolean representing whether or not modelItems is/could be different then masterItems
+     */
+    func isCurrentlyFiltered() -> Bool{
+        return filterOnFavorites || filterSearchTerm != ""
     }
 
 }
