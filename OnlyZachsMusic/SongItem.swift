@@ -10,7 +10,7 @@ import UIKit
 class SongItem: Equatable {
     var title: String       // title of the song
     var artists: [String]   // a list of artists of the song, len >= 1
-    var length: Int         // the length of the song
+    var length: String         // the length of the song
     var genre: String   // a list of genres that the song falls into
     var desc: String?   // description of why Zach likes the song
     var isFavorite: Bool  // is this song a favorite
@@ -18,7 +18,7 @@ class SongItem: Equatable {
     
     init(title: String,
          artists: [String],
-         length: Int,
+         length: String,
          genre: String,
          desc: String?,
          isFavorite: Bool,
@@ -37,6 +37,9 @@ class SongItem: Equatable {
     convenience init(random: Bool = true){
         if random {
             let len = Int(arc4random_uniform(400))
+            
+            let lenStr = convertIntToTimeFmt(time: len)
+            
             let possibleGenres = ["Rock", "Hip Hop", "Alternative Metal", "Country", "Alternative Rock", "Indie"]
             let possibleTitles = ["New", "Divide", "Bleed", "I've Done","Authority", "With You", "Pushing Me",
                                   "It out", "Numb", "End", "In the", "One Step", "Closer", "Away", "Runaway","Papercut",
@@ -57,10 +60,10 @@ class SongItem: Equatable {
                 artists.append("\(possibleArtists[Int.random(in:0..<possibleArtists.count)])\(i < numArtists - 1 ? ", " : "")")
             }
             
-            self.init(title: title, artists: artists, length: len, genre: genre,
+            self.init(title: title, artists: artists, length: lenStr, genre: genre,
                       desc: "It's a good song", isFavorite: false, cover: "ur mom")
         } else {
-            self.init(title: "New Divide", artists: ["Linkin Park"], length: 268, genre: "Rock",
+            self.init(title: "New Divide", artists: ["Linkin Park"], length: "2:58", genre: "Rock",
                       desc: "It's a good song", isFavorite: false, cover: "ur mom")
         }
     }
@@ -71,4 +74,18 @@ class SongItem: Equatable {
         && lhs.artists == rhs.artists
         && lhs.length == rhs.length
     }
+}
+
+func convertIntToTimeFmt(time: Int) -> String {
+    var min = 0
+    var intTime = time
+    while intTime - 60 > 0{
+        intTime -= 60
+        min+=1
+    }
+    var seconds = "\(intTime)"
+    if seconds.count == 1{
+        seconds = "0\(seconds)"
+    }
+    return "\(min):\(seconds)"
 }

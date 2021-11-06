@@ -9,10 +9,13 @@ import UIKit
 
 class ItemsViewController : UITableViewController {
     
+    let secondaryBackgroundColor = UIColor(hex: 0x1D4D7A)
+    let tertiaryBackgroundColor = UIColor(hex: 0x27639C)
+    
     /* Button and text field outlets*/
-    @IBOutlet var favoriteFilterButton: UIButton!
-    @IBOutlet var addNewButton: UIButton!
-    @IBOutlet var editButton: UIButton!
+    @IBOutlet weak var favoriteFilterButton: UIButton!
+    @IBOutlet weak var addNewButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
     
     @IBOutlet var searchField: UITextField!
     
@@ -24,11 +27,24 @@ class ItemsViewController : UITableViewController {
         super.viewDidLoad()
         
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 75
+        tableView.estimatedRowHeight = 85
+//        tableView.separatorStyle = .none
     }
     
     /* Override viewWillAppear to ... */
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Change search field background to white
+        searchField.attributedPlaceholder = NSAttributedString(
+            string: "Enter Search Query",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+        )
+        // Modify search field border
+        searchField.layer.cornerRadius = 5.0
+        
+        // Modify labels
+        
     }
     
     /* Allow keyboard to be dimissed by tapping on background*/
@@ -42,6 +58,8 @@ class ItemsViewController : UITableViewController {
             songItemStore.filterSearchTerm = text
             tableView.reloadData()
         }
+        disableAddOnFilter()
+        
     }
     
     /*
@@ -90,13 +108,13 @@ class ItemsViewController : UITableViewController {
      * Will update model to only give SongItems based on isFavorite property of SongItem
      */
     @IBAction func toggleFilterOnFavorite(_ sender: UIButton){
-        
         songItemStore.filterOnFavorites.toggle()
         if songItemStore.filterOnFavorites{
             sender.setTitle("Show All", for: .normal)
         } else {
             sender.setTitle("Show Favorites", for: .normal)
         }
+        disableAddOnFilter()
         tableView.reloadData()
     }
     
@@ -109,6 +127,23 @@ class ItemsViewController : UITableViewController {
 //        print("calfwefled")
 //        return true
 //    }
+    
+    /*
+     * Change attributes of a section header
+     */
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
+        if let headerView = view as? UITableViewHeaderFooterView {
+            headerView.textLabel?.textColor = .white
+            headerView.contentView.backgroundColor = secondaryBackgroundColor
+//            headerView.contentView.layer.cornerRadius = 5.0
+            
+            let headerFont = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
+            
+            headerView.textLabel?.adjustsFontForContentSizeCategory = true
+            headerView.textLabel?.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: headerFont)
+        }
+    }
+    
     
     /*
      * Return the number or sections; equal to the number of unique genres
@@ -140,17 +175,20 @@ class ItemsViewController : UITableViewController {
         let item = songItemStore.modelItems[indexPath.section].songs[indexPath.row]
         
 //        cell.titleLabel.text = "\(item.title) - \(item.genre)"
-        cell.titleLabel.text = "\(item.title)"
+        cell.titleLabel.text = item.title
 
         cell.artistsLabel.text = "\(item.artists.reduce(" ") {$0 + $1})"
 
-        cell.lengthLabel.text = convertIntToTimeFmt(time: item.length)
+        cell.lengthLabel.text = item.length
         
         if item.isFavorite {
-            cell.favoriteImg.image = UIImage(systemName: "heart.fill")?.withTintColor(UIColor.systemCyan)
+            cell.favoriteImg.image = UIImage(systemName: "heart.fill")?.withRenderingMode(.alwaysTemplate)
+            cell.favoriteImg.tintColor = .white
         } else {
             cell.favoriteImg.image = nil
         }
+        
+        cell.selectionStyle = .none
         return cell
     }
     
@@ -231,7 +269,7 @@ class ItemsViewController : UITableViewController {
         
         // Setup action on the row.
         let favoriteAction = UIContextualAction(style: .normal, title: "", handler: handler)
-        favoriteAction.backgroundColor = UIColor.systemMint
+        favoriteAction.backgroundColor = tertiaryBackgroundColor
         
         if (item.isFavorite) {
             favoriteAction.image = UIImage(systemName: "heart.slash.fill")?.withTintColor(UIColor.white)
@@ -241,17 +279,49 @@ class ItemsViewController : UITableViewController {
         return UISwipeActionsConfiguration(actions: [favoriteAction])
     }
     
-    func convertIntToTimeFmt(time: Int) -> String {
-        var min = 0
-        var intTime = time
-        while intTime - 60 > 0{
-            intTime -= 60
-            min+=1
+    override func prepare(for seque: UIStoryboardSegue, sender: Any?) {
+        switch  seque.identifier {
+        case "showItem":
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let songItem = songItemStore.modelItems[indexPath.section].songs[indexPath.row]
+                
+                let detailViewController = seque.destination as! DetailViewController
+                detailViewController.songItem = songItem
+            }
+            
+        default:
+            preconditionFailure("Unexpected seque identifier.")
         }
-        var seconds = "\(intTime)"
-        if seconds.count == 1{
-            seconds = "0\(seconds)"
-        }
-        return "\(min):\(seconds)"
     }
+    
+    func disableAddOnFilter(){
+        // Disable "Add New" button when results are being filtered
+        if songItemStore.isCurrentlyFiltered(){
+            addNewButton.isEnabled = false
+        } else {
+            addNewButton.isEnabled = true
+        }
+    }
+}
+
+/*
+ * Extending UIColor so that I can input hexadecimal color values
+ * Apple is so supremely intelligent for not including this functionality by default
+ */
+extension UIColor {
+   convenience init(red: Int, green: Int, blue: Int) {
+       assert(red >= 0 && red <= 255, "Invalid red component")
+       assert(green >= 0 && green <= 255, "Invalid green component")
+       assert(blue >= 0 && blue <= 255, "Invalid blue component")
+
+       self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+   }
+
+   convenience init(hex: Int) {
+       self.init(
+           red: (hex >> 16) & 0xFF,
+           green: (hex >> 8) & 0xFF,
+           blue: hex & 0xFF
+       )
+   }
 }
