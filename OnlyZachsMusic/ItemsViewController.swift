@@ -22,6 +22,9 @@ class ItemsViewController : UITableViewController {
     /* Override viewDidLoad to set ... */
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 75
     }
     
     /* Override viewWillAppear to ... */
@@ -29,9 +32,9 @@ class ItemsViewController : UITableViewController {
     }
     
     /* Allow keyboard to be dimissed by tapping on background*/
-    @IBAction func dimissKeyboard(_ sender: UITapGestureRecognizer) {
-        searchField.resignFirstResponder()
-    }
+//    @IBAction func dimissKeyboard(_ sender: UITapGestureRecognizer) {
+//        searchField.resignFirstResponder()
+//    }
     
     /* Respond to search queries everytime the text field is edited*/
     @IBAction func searchQueryFieldEditingChanged(_ textField: UITextField) {
@@ -96,7 +99,17 @@ class ItemsViewController : UITableViewController {
         }
         tableView.reloadData()
     }
-
+    
+    /*
+     * Gesture recognizer for dismissing keyboard will block cell delete buttons from being tapped
+     * so this is neccessary to prevent this behavior
+     */
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+//                                    shouldReceive touch: UITouch) -> Bool {
+//        print("calfwefled")
+//        return true
+//    }
+    
     /*
      * Return the number or sections; equal to the number of unique genres
      */
@@ -122,16 +135,21 @@ class ItemsViewController : UITableViewController {
      * Create a cell to represent a SongItem at a given index
      */
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SongItemCell", for: indexPath) as! SongItemCell
         let item = songItemStore.modelItems[indexPath.section].songs[indexPath.row]
         
-        cell.textLabel?.text = "\(item.title) - \(item.genre)"
-        cell.detailTextLabel?.text = "\(item.length)"
+//        cell.titleLabel.text = "\(item.title) - \(item.genre)"
+        cell.titleLabel.text = "\(item.title)"
+
+        cell.artistsLabel.text = "\(item.artists.reduce(" ") {$0 + $1})"
+
+        cell.lengthLabel.text = convertIntToTimeFmt(time: item.length)
         
         if item.isFavorite {
-            cell.imageView?.image = UIImage(systemName: "heart")?.withTintColor(UIColor.systemCyan)
+            cell.favoriteImg.image = UIImage(systemName: "heart.fill")?.withTintColor(UIColor.systemCyan)
         } else {
-            cell.imageView?.image = nil
+            cell.favoriteImg.image = nil
         }
         return cell
     }
@@ -221,5 +239,19 @@ class ItemsViewController : UITableViewController {
             favoriteAction.image = UIImage(systemName: "heart.fill")?.withTintColor(UIColor.white)
         }
         return UISwipeActionsConfiguration(actions: [favoriteAction])
+    }
+    
+    func convertIntToTimeFmt(time: Int) -> String {
+        var min = 0
+        var intTime = time
+        while intTime - 60 > 0{
+            intTime -= 60
+            min+=1
+        }
+        var seconds = "\(intTime)"
+        if seconds.count == 1{
+            seconds = "0\(seconds)"
+        }
+        return "\(min):\(seconds)"
     }
 }

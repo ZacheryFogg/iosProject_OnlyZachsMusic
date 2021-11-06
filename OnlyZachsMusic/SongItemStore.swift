@@ -128,6 +128,7 @@ class SongItemStore {
      * its genre will be changed to match the GenreSection
      */
     func insertSongItem(_ songItem: SongItem, at indexPath: IndexPath){
+        
         if masterItems[indexPath.section].genre == songItem.genre{
             masterItems[indexPath.section].insertSong(songItem, at: indexPath.row)
         } else {
@@ -154,6 +155,7 @@ class SongItemStore {
         if let genreIndex = masterItems.firstIndex(where: {$0.genre == songItem.genre}) {
             if let index = masterItems[genreIndex].songs.firstIndex(of: songItem) {
                 masterItems[genreIndex].songs.remove(at: index)
+                // If section is now empty, remove section
                 if masterItems[genreIndex].songs.count == 0 {
                     masterItems.remove(at: genreIndex)
                 }
@@ -170,10 +172,16 @@ class SongItemStore {
         if fromIndex == toIndex{
             return
         }
+        var altToIndex = toIndex
         let movedItem = masterItems[fromIndex.section].songs[fromIndex.row]
+        let prevSectionCount = masterItems.count
         removeItem(movedItem)
-        insertSongItem(movedItem, at: toIndex)
-
+        // If removing an item caused a section to be deleted, and the deleted section
+        // is before the destination section, then the toIndex.section will now be wrong
+        if masterItems.count != prevSectionCount && fromIndex.section < altToIndex.section{
+            altToIndex.section -= 1
+        }
+        insertSongItem(movedItem, at: altToIndex)
     }
     
     /*
