@@ -38,9 +38,26 @@ class SongItem: Equatable {
         if random {
             let len = Int(arc4random_uniform(400))
             let possibleGenres = ["Rock", "Hip Hop", "Alternative Metal", "Country", "Alternative Rock", "Indie"]
+            let possibleTitles = ["New", "Divide", "Bleed", "I've Done","Authority", "With You", "Pushing Me",
+                                  "It out", "Numb", "End", "In the", "One Step", "Closer", "Away", "Runaway","Papercut",
+                                  "Fogotten", "By Myself", "Given Up", "Shadow of the", "Day", "No More", "Sorrow"]
+            let possibleArtists = ["Linkin Park", "Camila Cabello", "Halsey", "Three Days Grace", "Seether", "Rise Against",
+                                   "The Offspring", "Breaking Benjamin", "Avenged Sevenfold", "Shinedown", "Bring Me The Horizon",
+                                   "Motionless in White", "Late Night Savior", "Evans Blue", "Shinedown"]
+            var title = ""
+            for _ in 0..<2{
+                title += "\(possibleTitles[Int(arc4random_uniform(UInt32(possibleTitles.count)))]) "
+            }
             let genre = possibleGenres[Int(arc4random_uniform(UInt32(possibleGenres.count)))]
             
-            self.init(title: "New Divide", artists: ["Linkin Park"], length: len, genre: genre,
+            var artists = [String]()
+            
+            let numArtists = Int.random(in:1...2)
+            for i in 0..<numArtists{
+                artists.append("\(possibleArtists[Int.random(in:0..<possibleArtists.count)])\(i < numArtists - 1 ? ", " : "")")
+            }
+            
+            self.init(title: title, artists: artists, length: len, genre: genre,
                       desc: "It's a good song", isFavorite: false, cover: "ur mom")
         } else {
             self.init(title: "New Divide", artists: ["Linkin Park"], length: 268, genre: "Rock",

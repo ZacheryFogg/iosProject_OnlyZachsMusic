@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -159,6 +160,32 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YzC-rG-Yoc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="89.855072463768124" y="110.49107142857143"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="deu-3j-3Cr">
+            <objects>
+                <viewController id="hPh-do-rDS" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NPY-LQ-j0l">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="vUQ-Le-rym">
+                                <rect key="frame" x="20" y="52" width="374" height="802"/>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="quk-wa-gfU"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="quk-wa-gfU" firstAttribute="bottom" secondItem="vUQ-Le-rym" secondAttribute="bottom" constant="8" id="Q9r-2M-udF"/>
+                            <constraint firstItem="vUQ-Le-rym" firstAttribute="leading" secondItem="quk-wa-gfU" secondAttribute="leading" constant="20" id="ala-cM-DZA"/>
+                            <constraint firstItem="quk-wa-gfU" firstAttribute="trailing" secondItem="vUQ-Le-rym" secondAttribute="trailing" constant="20" id="gqz-rX-s21"/>
+                            <constraint firstItem="vUQ-Le-rym" firstAttribute="top" secondItem="quk-wa-gfU" secondAttribute="top" constant="8" id="oQE-I2-LzQ"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qay-ix-FyW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="801" y="110"/>
         </scene>
     </scenes>
     <resources>
