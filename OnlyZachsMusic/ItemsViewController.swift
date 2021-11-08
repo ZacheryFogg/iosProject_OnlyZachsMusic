@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ItemsViewController : UITableViewController {
+class ItemsViewController : UITableViewController, UITextFieldDelegate {
     
     let primaryBackgroundColor = UIColor(hex: 0x0E263D)
     let secondaryBackgroundColor = UIColor(hex: 0x1D4D7A)
@@ -20,7 +20,7 @@ class ItemsViewController : UITableViewController {
     
     /* Instance of SongItemStore to act as the model for application*/
     var songItemStore: SongItemStore!
-    
+    var imageStore: ImageStore!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -212,8 +212,8 @@ class ItemsViewController : UITableViewController {
         
         // If table view is asking to commit a delete command
         if editingStyle == .delete{
-            let item = songItemStore.modelItems[indexPath.section].songs[indexPath.row]
-            songItemStore.removeItem(item)
+            let songItem = songItemStore.modelItems[indexPath.section].songs[indexPath.row]
+            songItemStore.removeItem(songItem)
             
             // If deletion removed a section, then update view
             if tableView.numberOfRows(inSection: indexPath.section) == 1 {
@@ -222,6 +222,7 @@ class ItemsViewController : UITableViewController {
                 // Remove row from the table view with an animation
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
+            imageStore.deleteImage(forKey: songItem.itemKey)
             
         }
     }
@@ -299,11 +300,17 @@ class ItemsViewController : UITableViewController {
                 
                 let detailViewController = seque.destination as! DetailViewController
                 detailViewController.songItem = songItem
+                detailViewController.imageStore = imageStore
             }
             
         default:
             preconditionFailure("Unexpected seque identifier.")
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
 //    func disableAddOnFilter(){

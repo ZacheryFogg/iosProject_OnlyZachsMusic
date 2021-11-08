@@ -15,6 +15,7 @@ class SongItem: Equatable, Codable {
     var desc: String?   // description of why Zach likes the song
     var isFavorite: Bool  // is this song a favorite
     var cover: String?      // albumn cover associated with the song
+    let itemKey: String
     
     init(title: String,
          artists: String,
@@ -31,6 +32,7 @@ class SongItem: Equatable, Codable {
         self.desc = desc
         self.isFavorite = isFavorite
         self.cover = cover
+        self.itemKey = UUID().uuidString
         
     }
     

@@ -30,6 +30,7 @@
                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                     <connections>
                                         <action selector="searchQueryFieldEditingChanged:" destination="Mp9-8L-WTE" eventType="editingChanged" id="r9e-VF-oJr"/>
+                                        <outlet property="delegate" destination="Mp9-8L-WTE" id="DSI-nY-TCa"/>
                                     </connections>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" id="rIH-ok-5gL">
@@ -134,7 +135,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vUQ-Le-rym">
-                                <rect key="frame" x="20" y="96" width="374" height="758"/>
+                                <rect key="frame" x="20" y="96" width="374" height="709"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="C5s-TG-UNe">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
@@ -235,7 +236,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1gZ-SI-1ZA">
-                                        <rect key="frame" x="0.0" y="176" width="374" height="413.5"/>
+                                        <rect key="frame" x="0.0" y="176" width="374" height="64.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Why Does Zach Like" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eeG-Pa-kVt">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="20.5"/>
@@ -244,7 +245,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NUD-rD-x1Y">
-                                                <rect key="frame" x="0.0" y="30.5" width="374" height="383"/>
+                                                <rect key="frame" x="0.0" y="30.5" width="374" height="34"/>
                                                 <color key="backgroundColor" red="0.1137254902" green="0.30196078430000001" blue="0.47843137250000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
@@ -256,7 +257,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MWL-QM-XgO">
-                                        <rect key="frame" x="0.0" y="599.5" width="374" height="158.5"/>
+                                        <rect key="frame" x="0.0" y="250.5" width="374" height="458.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Album Cover " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebX-yR-j7A">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="20.5"/>
@@ -264,8 +265,8 @@
                                                 <color key="textColor" red="0.72156862749999995" green="0.72156862749999995" blue="0.72156862749999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="ria-eC-e4F">
-                                                <rect key="frame" x="0.0" y="30.5" width="374" height="128"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="248" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="ria-eC-e4F">
+                                                <rect key="frame" x="0.0" y="30.5" width="374" height="428"/>
                                             </imageView>
                                         </subviews>
                                     </stackView>
@@ -276,12 +277,25 @@
                                     <constraint firstItem="9be-vp-CfQ" firstAttribute="leading" secondItem="JeP-Uk-RDj" secondAttribute="leading" id="z0s-Xm-b96"/>
                                 </constraints>
                             </stackView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PNa-5J-9xF">
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                                <items>
+                                    <barButtonItem systemItem="camera" id="5Ud-Bx-rER">
+                                        <connections>
+                                            <action selector="choosePhotoSource:" destination="hPh-do-rDS" id="kpY-c4-6BC"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="quk-wa-gfU"/>
                         <color key="backgroundColor" red="0.054901960780000002" green="0.14901960780000001" blue="0.23921568630000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="quk-wa-gfU" firstAttribute="bottom" secondItem="vUQ-Le-rym" secondAttribute="bottom" constant="8" id="Q9r-2M-udF"/>
+                            <constraint firstItem="quk-wa-gfU" firstAttribute="bottom" secondItem="PNa-5J-9xF" secondAttribute="bottom" id="0Oz-ZK-Ezr"/>
+                            <constraint firstAttribute="trailing" secondItem="PNa-5J-9xF" secondAttribute="trailing" id="2nA-sU-I1q"/>
+                            <constraint firstItem="PNa-5J-9xF" firstAttribute="leading" secondItem="NPY-LQ-j0l" secondAttribute="leading" id="Cbp-LD-j6h"/>
+                            <constraint firstItem="PNa-5J-9xF" firstAttribute="top" secondItem="vUQ-Le-rym" secondAttribute="bottom" constant="8" id="Nxf-nh-9sq"/>
                             <constraint firstItem="vUQ-Le-rym" firstAttribute="leading" secondItem="quk-wa-gfU" secondAttribute="leading" constant="20" id="ala-cM-DZA"/>
                             <constraint firstItem="quk-wa-gfU" firstAttribute="trailing" secondItem="vUQ-Le-rym" secondAttribute="trailing" constant="20" id="gqz-rX-s21"/>
                             <constraint firstItem="vUQ-Le-rym" firstAttribute="top" secondItem="quk-wa-gfU" secondAttribute="top" constant="8" id="oQE-I2-LzQ"/>
