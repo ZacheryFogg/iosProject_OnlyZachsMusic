@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SongItem: Equatable {
+class SongItem: Equatable, Codable {
     var title: String       // title of the song
     var artists: String   // artists in song, too much hasel to make it an array of Strings
     var length: String         // the length of the song

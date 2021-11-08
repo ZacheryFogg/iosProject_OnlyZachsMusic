@@ -13,7 +13,7 @@ import UIKit
  *
  * Provides functionality to append or insert SongItems into a GenreSection
  */
-struct GenreSection {
+struct GenreSection: Codable {
     var genre: String?
     var songs = [SongItem] ()
     
@@ -49,6 +49,13 @@ class SongItemStore {
     /*  Array of GenreSections to act as master list. Contains all SongItems. Is not directly exposed to the controller */
     private var masterItems = [GenreSection] ()
     
+    let songItemArchiveURL: URL = {
+        let documentsDirectories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        var documentDirectory = documentsDirectories.first!
+        documentDirectory.appendPathComponent("songItems.plist")
+        
+        return documentDirectory
+    }()
     /* Boolean to only expose SongItems that are favorited */
     var filterOnFavorites = false
     
@@ -101,9 +108,20 @@ class SongItemStore {
      * Calls function to create semi-random SongItem and add it to the model 5 times
      */
     init() {
-        for _ in 0..<5 {
-            createSongItem(random: true)
+        do {
+            let data = try Data(contentsOf: songItemArchiveURL)
+            let unarchiver = PropertyListDecoder()
+            let items = try unarchiver.decode([GenreSection].self, from: data)
+            masterItems = items
+        } catch {
+            print("Error reading in saved items: \(error)")
         }
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(saveChanges),
+                                       name: UIScene.didEnterBackgroundNotification,
+                                       object: nil)
+                        
     }
     
     /*
@@ -189,6 +207,18 @@ class SongItemStore {
      */
     func isCurrentlyFiltered() -> Bool{
         return filterOnFavorites || filterSearchTerm != ""
+    }
+    
+    @objc func saveChanges() -> Bool {
+        do {
+            let encoder = PropertyListEncoder()
+            let data = try encoder.encode(masterItems)
+            try data.write(to: songItemArchiveURL, options: [.atomic])
+            return true
+        } catch let encodingError{
+            print("Error encoding masterItems: \(encodingError)")
+            return false
+        }
     }
 
 }
