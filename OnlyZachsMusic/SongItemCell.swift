@@ -19,10 +19,9 @@ class SongItemCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-//        self.layer.borderColor = primaryBackgroundColor.cgColor
-//
-//        self.layer.borderWidth = 2
-//        self.layer.cornerRadius = 15.0
+        self.layer.borderColor = primaryBackgroundColor.cgColor
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 5.0
     }
     
     override func layoutSubviews() {

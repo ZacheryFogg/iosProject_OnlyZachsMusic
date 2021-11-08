@@ -9,19 +9,24 @@ import UIKit
 
 class ItemsViewController : UITableViewController {
     
+    let primaryBackgroundColor = UIColor(hex: 0x0E263D)
     let secondaryBackgroundColor = UIColor(hex: 0x1D4D7A)
     let tertiaryBackgroundColor = UIColor(hex: 0x27639C)
     
     /* Button and text field outlets*/
     @IBOutlet weak var favoriteFilterButton: UIButton!
-    @IBOutlet weak var addNewButton: UIButton!
-    @IBOutlet weak var editButton: UIButton!
     
     @IBOutlet var searchField: UITextField!
     
     /* Instance of SongItemStore to act as the model for application*/
     var songItemStore: SongItemStore!
     
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        navigationItem.leftBarButtonItem = editButtonItem
+    }
     /* Override viewDidLoad to set ... */
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +34,9 @@ class ItemsViewController : UITableViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 85
 //        tableView.separatorStyle = .none
+        
+        self.navigationController?.navigationBar.topItem?.title = "Only Zach's Music"
+        self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.0, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor.white]
     }
     
     /* Override viewWillAppear to ... */
@@ -43,7 +51,8 @@ class ItemsViewController : UITableViewController {
         // Modify search field border
         searchField.layer.cornerRadius = 5.0
         
-        // Modify labels
+        // Reload data
+        tableView.reloadData()
         
     }
     
@@ -58,14 +67,14 @@ class ItemsViewController : UITableViewController {
             songItemStore.filterSearchTerm = text
             tableView.reloadData()
         }
-        disableAddOnFilter()
+//        disableAddOnFilter()
         
     }
     
     /*
      * Add a new SongItem to the model
      */
-    @IBAction func addNewItem(_ sender: UIButton) {
+    @IBAction func addNewItem(_ sender: UIBarButtonItem) {
         // Create new item and add it to the itemStore
         let newSongItem = songItemStore.createSongItem(random: true)
         
@@ -90,18 +99,18 @@ class ItemsViewController : UITableViewController {
      * Handle action on "Edit" button
      * Will allow SongItems to be moved or deleted
      */
-    @IBAction func toggleEditingMode(_ sender: UIButton) {
-        sender.setTitle("All", for: .normal)
-        if isEditing{
-            sender.setTitle("Edit", for: .normal)
-            
-            setEditing(false, animated: true)
-        } else {
-            sender.setTitle("Done", for: .normal)
-            
-            setEditing(true, animated: true)
-        }
-    }
+//    @IBAction func toggleEditingMode(_ sender: UIButton) {
+//        sender.setTitle("All", for: .normal)
+//        if isEditing{
+//            sender.setTitle("Edit", for: .normal)
+//
+//            setEditing(false, animated: true)
+//        } else {
+//            sender.setTitle("Done", for: .normal)
+//
+//            setEditing(true, animated: true)
+//        }
+//    }
     
     /*
      * Handle action on button associated with filtering on isFavorite
@@ -114,7 +123,7 @@ class ItemsViewController : UITableViewController {
         } else {
             sender.setTitle("Show Favorites", for: .normal)
         }
-        disableAddOnFilter()
+//        disableAddOnFilter()
         tableView.reloadData()
     }
     
@@ -141,6 +150,9 @@ class ItemsViewController : UITableViewController {
             
             headerView.textLabel?.adjustsFontForContentSizeCategory = true
             headerView.textLabel?.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: headerFont)
+            headerView.layer.borderColor = primaryBackgroundColor.cgColor
+            headerView.layer.borderWidth = 1
+            headerView.layer.cornerRadius = 5.0
         }
     }
     
@@ -177,7 +189,7 @@ class ItemsViewController : UITableViewController {
 //        cell.titleLabel.text = "\(item.title) - \(item.genre)"
         cell.titleLabel.text = item.title
 
-        cell.artistsLabel.text = "\(item.artists.reduce(" ") {$0 + $1})"
+        cell.artistsLabel.text = item.artists
 
         cell.lengthLabel.text = item.length
         
@@ -294,14 +306,14 @@ class ItemsViewController : UITableViewController {
         }
     }
     
-    func disableAddOnFilter(){
-        // Disable "Add New" button when results are being filtered
-        if songItemStore.isCurrentlyFiltered(){
-            addNewButton.isEnabled = false
-        } else {
-            addNewButton.isEnabled = true
-        }
-    }
+//    func disableAddOnFilter(){
+//        // Disable "Add New" button when results are being filtered
+//        if songItemStore.isCurrentlyFiltered(){
+//            addNewButton.isEnabled = false
+//        } else {
+//            addNewButton.isEnabled = true
+//        }
+//    }
 }
 
 /*

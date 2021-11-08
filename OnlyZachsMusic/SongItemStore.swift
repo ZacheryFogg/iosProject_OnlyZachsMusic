@@ -69,7 +69,7 @@ class SongItemStore {
         if searchTerm == "" { return true }
         if songItem.genre.lowercased().contains(searchTerm) { return true }
         if songItem.title.lowercased().contains(searchTerm) { return true }
-        if (songItem.artists.reduce("") {$0 + $1}).lowercased().contains(searchTerm) { return true }
+        if songItem.artists.lowercased().contains(searchTerm) { return true }
         if let desc = songItem.desc{ if desc.lowercased().contains(searchTerm) { return true } }
         return false
     }
