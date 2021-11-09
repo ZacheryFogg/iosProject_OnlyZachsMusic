@@ -11,7 +11,7 @@ class SongItem: Equatable, Codable {
     var title: String       // title of the song
     var artists: String   // artists in song, too much hasel to make it an array of Strings
     var length: String         // the length of the song
-    var genre: String   // a list of genres that the song falls into
+    var genre: String   // genre of song
     var desc: String?   // description of why Zach likes the song
     var isFavorite: Bool  // is this song a favorite
     var cover: String?      // albumn cover associated with the song
@@ -37,6 +37,7 @@ class SongItem: Equatable, Codable {
     }
     
     convenience init(random: Bool = true){
+        // Random intialization every time a new song is created
         if random {
             let len = Int(arc4random_uniform(400))
             
@@ -63,11 +64,6 @@ class SongItem: Equatable, Codable {
             
             let numArtists = Int.random(in:1...2)
             for i in 0..<numArtists{
-//                if artists == ""{
-//                    artists = "\(possibleArtists[Int.random(in:0..<possibleArtists.count)])\(i < numArtists - 1 ? ", " : "")"
-//                } else {
-//                    artists = "\(artists),\(possibleArtists[Int.random(in:0..<possibleArtists.count)])\(i < numArtists - 1 ? ", " : "")"
-//                }
                 artists += "\(possibleArtists[Int.random(in:0..<possibleArtists.count)])\(i < numArtists - 1 ? ", " : "")"
             }
             
@@ -79,6 +75,7 @@ class SongItem: Equatable, Codable {
         }
     }
     
+    /* Implement equatable*/
     static func ==(lhs: SongItem, rhs: SongItem) -> Bool {
         return lhs.title == rhs.title
         && lhs.genre == rhs.genre
@@ -87,6 +84,7 @@ class SongItem: Equatable, Codable {
     }
 }
 
+/* Convert an interger to a string in proper format*/
 func convertIntToTimeFmt(time: Int) -> String {
     var min = 0
     var intTime = time

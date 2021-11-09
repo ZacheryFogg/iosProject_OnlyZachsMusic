@@ -8,6 +8,7 @@
 import UIKit
 
 class SongItemCell: UITableViewCell {
+    
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var artistsLabel: UILabel!
     @IBOutlet var lengthLabel: UILabel!
@@ -25,26 +26,10 @@ class SongItemCell: UITableViewCell {
         self.layer.cornerRadius = 5.0
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-//        let titleFont = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
-//
-//        titleLabel.adjustsFontForContentSizeCategory = true
-//        titleLabel.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: titleFont)
-//
-//        let secondaryFont = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
-//
-//        artistsLabel.adjustsFontForContentSizeCategory = true
-//        lengthLabel.adjustsFontForContentSizeCategory = true
-//
-//        artistsLabel.font = UIFontMetrics(forTextStyle: .subheadline).scaledFont(for: secondaryFont)
-//        lengthLabel.font = UIFontMetrics(forTextStyle: .subheadline).scaledFont(for: secondaryFont)
-        
-//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)  )
-    }
-    
-    /* https://stackoverflow.com/questions/45967210/change-reorder-controls-color-in-table-view-cell */
+    /* https://stackoverflow.com/questions/45967210/change-reorder-controls-color-in-table-view-cell
+     
+     An attempt to change color of UITableViewCellReorderControl from default grey to white to make them visible
+     */
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
 

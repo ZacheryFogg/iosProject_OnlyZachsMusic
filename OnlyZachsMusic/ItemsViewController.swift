@@ -16,7 +16,6 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
         
     /* Button and text field outlets*/
     @IBOutlet weak var favoriteFilterButton: UIButton!
-    
     @IBOutlet var searchField: UITextField!
     
     /* Instance of SongItemStore to act as the model for application*/
@@ -28,21 +27,18 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
         
         navigationItem.leftBarButtonItem = editButtonItem
     }
+    
     /* Override viewDidLoad to set ... */
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 85
-//        tableView.separatorStyle = .none
         
         self.navigationController?.navigationBar.topItem?.title = "Only Zach's Music"
-//        self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.0, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor.white]
     }
     
-
-    
-    /* Override viewWillAppear to ... */
+    /* Override viewWillAppear to preform some formatting and styling of various components*/
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -68,8 +64,9 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
         // Reload data
         tableView.reloadData()
         
-        print("called view will appear")
-        
+        favoriteFilterButton.layer.borderWidth = 2.0
+        favoriteFilterButton.layer.borderColor = secondaryBackgroundColor.cgColor
+        favoriteFilterButton.layer.cornerRadius = 5.0
     }
     
     /* Allow keyboard to be dimissed by tapping on background*/
@@ -83,8 +80,6 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
             songItemStore.filterSearchTerm = text
             tableView.reloadData()
         }
-//        disableAddOnFilter()
-        
     }
     
     /*
@@ -111,22 +106,6 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
         }
     }
     
-    /*
-     * Handle action on "Edit" button
-     * Will allow SongItems to be moved or deleted
-     */
-//    @IBAction func toggleEditingMode(_ sender: UIButton) {
-//        sender.setTitle("All", for: .normal)
-//        if isEditing{
-//            sender.setTitle("Edit", for: .normal)
-//
-//            setEditing(false, animated: true)
-//        } else {
-//            sender.setTitle("Done", for: .normal)
-//
-//            setEditing(true, animated: true)
-//        }
-//    }
     
     /*
      * Handle action on button associated with filtering on isFavorite
@@ -149,7 +128,6 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
      */
 //    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
 //                                    shouldReceive touch: UITouch) -> Bool {
-//        print("calfwefled")
 //        return true
 //    }
     
@@ -172,7 +150,6 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
         }
     }
     
-
     
     /*
      * Return the number or sections; equal to the number of unique genres
@@ -223,6 +200,7 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
     
     /*
      * Allow user to delete a row, which will remove it from the model
+     * Present alert to user to confirm deletion
      */
     override func tableView(_ tableView: UITableView,commit editingStyle: UITableViewCell.EditingStyle,
                             forRowAt indexPath: IndexPath) {
@@ -323,6 +301,9 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
         return UISwipeActionsConfiguration(actions: [favoriteAction])
     }
     
+    /*
+     * Data preparation in response to seque
+     */
     override func prepare(for seque: UIStoryboardSegue, sender: Any?) {
         switch  seque.identifier {
         case "showItem":
@@ -339,25 +320,20 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
         }
     }
     
+    /*
+     * Allow textField to be dismissed via return button
+     */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    
-//    func disableAddOnFilter(){
-//        // Disable "Add New" button when results are being filtered
-//        if songItemStore.isCurrentlyFiltered(){
-//            addNewButton.isEnabled = false
-//        } else {
-//            addNewButton.isEnabled = true
-//        }
-//    }
 }
 
 /*
  * Extending UIColor so that I can input hexadecimal color values
  * Apple is so supremely intelligent for not including this functionality by default
+ * Or I am supremely intelligent for not being able to locate it easily
  */
 extension UIColor {
    convenience init(red: Int, green: Int, blue: Int) {

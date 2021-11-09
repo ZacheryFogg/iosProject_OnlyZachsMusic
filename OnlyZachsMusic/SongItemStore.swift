@@ -105,7 +105,7 @@ class SongItemStore {
     
     /*
      * Initializer for SongItemStore.
-     * Calls function to create semi-random SongItem and add it to the model 5 times
+     * Load data from storage
      */
     init() {
         do {
@@ -116,12 +116,12 @@ class SongItemStore {
         } catch {
             print("Error reading in saved items: \(error)")
         }
-        
+            
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(saveChanges),
                                        name: UIScene.didEnterBackgroundNotification,
                                        object: nil)
-                        
+        
     }
     
     /*
@@ -209,6 +209,9 @@ class SongItemStore {
         return filterOnFavorites || filterSearchTerm != ""
     }
     
+    /*
+     * Function to move a songItem to new genre
+     */
     func reinsertToCorrectGenre(songItem: SongItem, newGenre: String) {
         
         let newSongItem = songItem
@@ -219,7 +222,9 @@ class SongItemStore {
 
            
     }
-    
+    /*
+     * save changes in model to disk
+     */
     @objc func saveChanges() -> Bool {
         do {
             let encoder = PropertyListEncoder()

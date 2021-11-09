@@ -18,7 +18,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
     @IBOutlet var descTextField: UITextField!
     
     @IBOutlet var albumImg: UIImageView!
-
     @IBOutlet weak var toolbar: UIToolbar!
     
     let quaternaryBackgroundColor = UIColor.init(hex: 0x091826)
@@ -31,6 +30,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
     
     var imageStore: ImageStore!
     
+    /* Allow user to add photo to song via camera or library*/
     @IBAction func choosePhotoSource(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.modalPresentationStyle = .popover
@@ -57,6 +57,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         present(alertController, animated: true, completion: nil)
     }
     
+    /* Allow user to delete a song item from model. Provide alert to confirm decision*/
     @IBAction func deleteItem(_ sender: UIBarButtonItem) {
         let message = "Are you sure you want to delete '\(songItem.title)'"
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -79,10 +80,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         
     }
     
+    /* dismiss keyboard on background tap*/
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
     
+    /* toggle favorite status of song via button */
     @IBAction func toggleFavorite(_ sender: UIButton) {
         songItem.isFavorite.toggle()
         if songItem.isFavorite {
@@ -92,12 +95,15 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         }
     }
     
+    /* instantiate and configure image picker*/
     func imagePicker(for sourceType: UIImagePickerController.SourceType) -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = sourceType
         imagePicker.delegate = self
         return imagePicker
     }
+    
+    /* configure data fields and toolbar appearence */
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -121,6 +127,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         toolbar.barTintColor = quaternaryBackgroundColor
     }
     
+    /* save data before leaving view, some basic data validation */
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -147,10 +154,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         view.endEditing(true)
     }
     
+    /* dimsiss keyboard on return key */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         let image = info[.originalImage] as! UIImage
