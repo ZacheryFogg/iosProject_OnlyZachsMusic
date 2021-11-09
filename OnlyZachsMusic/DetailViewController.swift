@@ -19,6 +19,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
     
     @IBOutlet var albumImg: UIImageView!
 
+    @IBOutlet weak var toolbar: UIToolbar!
+    
+    let quaternaryBackgroundColor = UIColor.init(hex: 0x091826)
+    
     var songItem: SongItem! {
         didSet {
             navigationItem.title = songItem.title
@@ -53,6 +57,27 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         present(alertController, animated: true, completion: nil)
     }
     
+    @IBAction func deleteItem(_ sender: UIBarButtonItem) {
+        let message = "Are you sure you want to delete '\(songItem.title)'"
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.modalPresentationStyle = .popover
+        
+        let deleteAction = UIAlertAction(title: "Yes", style: .destructive) { _ in
+            // Delete Item
+            let itemViewController = self.navigationController?.viewControllers.first as! ItemsViewController
+            itemViewController.songItemStore!.removeItem(self.songItem)
+            itemViewController.imageStore!.deleteImage(forKey: self.songItem.itemKey)
+            // Pop stack view
+            self.navigationController!.popViewController(animated: true)
+        }
+        alertController.addAction(deleteAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+        
+    }
     
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -93,16 +118,25 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         let imageToDisplay = imageStore.image(forKey: key)
         albumImg.image = imageToDisplay
         
+        toolbar.barTintColor = quaternaryBackgroundColor
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        songItem.title = titleTextField.text ?? ""
-        songItem.artists = artistsTextField.text ?? "" //todo: split input on comma maybe
-        songItem.genre = genreTextField.text ?? ""
-        songItem.length = lengthTextField.text ?? ""
-        songItem.desc = descTextField.text ?? ""
+        songItem.title = titleTextField.text ?? "Unknown"
+        songItem.artists = artistsTextField.text ?? "Unknown" //todo: split input on comma maybe
+        
+        // If genre changed then songItem will need to be reinserted to another genre section
+        if songItem.genre != genreTextField.text{
+            let newGenre = genreTextField.text ?? "Undecided"
+            
+            let itemViewController = self.navigationController?.viewControllers.first as! ItemsViewController
+            itemViewController.songItemStore.reinsertToCorrectGenre(songItem: songItem, newGenre: newGenre)
+        }
+        songItem.length = lengthTextField.text ?? "0:00"
+        songItem.desc = descTextField.text ?? "He must no like it very much"
+                        
         
         view.endEditing(true)
     }

@@ -12,7 +12,8 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
     let primaryBackgroundColor = UIColor(hex: 0x0E263D)
     let secondaryBackgroundColor = UIColor(hex: 0x1D4D7A)
     let tertiaryBackgroundColor = UIColor(hex: 0x27639C)
-    
+    let quaternaryBackgroundColor = UIColor.init(hex: 0x091826)
+        
     /* Button and text field outlets*/
     @IBOutlet weak var favoriteFilterButton: UIButton!
     
@@ -36,23 +37,38 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
 //        tableView.separatorStyle = .none
         
         self.navigationController?.navigationBar.topItem?.title = "Only Zach's Music"
-        self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.0, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor.white]
+//        self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.0, weight: .semibold), NSAttributedString.Key.foregroundColor: UIColor.white]
     }
+    
+
     
     /* Override viewWillAppear to ... */
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        let navigationBarAppearace = UINavigationBarAppearance()
+        
+        navigationBarAppearace.backgroundColor = quaternaryBackgroundColor
+        navigationBarAppearace.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 20.0, weight: .semibold), .foregroundColor: UIColor.white]
+        
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.standardAppearance = navigationBarAppearace
+        navigationController?.navigationBar.compactAppearance = navigationBarAppearace
+        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearace
+
+        
         // Change search field background to white
         searchField.attributedPlaceholder = NSAttributedString(
             string: "Enter Search Query",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
         )
         // Modify search field border
         searchField.layer.cornerRadius = 5.0
         
         // Reload data
         tableView.reloadData()
+        
+        print("called view will appear")
         
     }
     
@@ -156,6 +172,7 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
         }
     }
     
+
     
     /*
      * Return the number or sections; equal to the number of unique genres
@@ -213,17 +230,31 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
         // If table view is asking to commit a delete command
         if editingStyle == .delete{
             let songItem = songItemStore.modelItems[indexPath.section].songs[indexPath.row]
-            songItemStore.removeItem(songItem)
             
-            // If deletion removed a section, then update view
-            if tableView.numberOfRows(inSection: indexPath.section) == 1 {
-                tableView.deleteSections(IndexSet(integer: indexPath.section), with: .fade)
-            } else {
-                // Remove row from the table view with an animation
-                tableView.deleteRows(at: [indexPath], with: .fade)
+            // Present Alert
+            let message = "Are you sure you want to delete '\(songItem.title)'"
+            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+            alertController.modalPresentationStyle = .popover
+            
+            let deleteAction = UIAlertAction(title: "Yes", style: .destructive) { _ in
+                // Delete Item
+                self.songItemStore.removeItem(songItem)
+                
+                // If deletion removed a section, then update view
+                if tableView.numberOfRows(inSection: indexPath.section) == 1 {
+                    tableView.deleteSections(IndexSet(integer: indexPath.section), with: .fade)
+                } else {
+                    // Remove row from the table view with an animation
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+                self.imageStore.deleteImage(forKey: songItem.itemKey)
             }
-            imageStore.deleteImage(forKey: songItem.itemKey)
+            alertController.addAction(deleteAction)
             
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            
+            present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -312,6 +343,7 @@ class ItemsViewController : UITableViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
     
 //    func disableAddOnFilter(){
 //        // Disable "Add New" button when results are being filtered

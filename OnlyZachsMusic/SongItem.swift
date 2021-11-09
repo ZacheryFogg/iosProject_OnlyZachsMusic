@@ -50,8 +50,12 @@ class SongItem: Equatable, Codable {
                                    "The Offspring", "Breaking Benjamin", "Avenged Sevenfold", "Shinedown", "Bring Me The Horizon",
                                    "Motionless in White", "Late Night Savior", "Evans Blue", "Shinedown"]
             var title = ""
-            for _ in 0..<2{
-                title += "\(possibleTitles[Int(arc4random_uniform(UInt32(possibleTitles.count)))]) "
+            let maxTitlePhrase = 1
+            for i in 0...maxTitlePhrase{
+                title += "\(possibleTitles[Int(arc4random_uniform(UInt32(possibleTitles.count)))])"
+                if i != maxTitlePhrase{
+                    title+=" "
+                }
             }
             let genre = possibleGenres[Int(arc4random_uniform(UInt32(possibleGenres.count)))]
             

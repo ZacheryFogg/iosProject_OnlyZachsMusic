@@ -209,6 +209,17 @@ class SongItemStore {
         return filterOnFavorites || filterSearchTerm != ""
     }
     
+    func reinsertToCorrectGenre(songItem: SongItem, newGenre: String) {
+        
+        let newSongItem = songItem
+        removeItem(songItem)
+        
+        newSongItem.genre = newGenre
+        appendSongItem(newSongItem)
+
+           
+    }
+    
     @objc func saveChanges() -> Bool {
         do {
             let encoder = PropertyListEncoder()

@@ -27,7 +27,7 @@
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search"/>
                                     <connections>
                                         <action selector="searchQueryFieldEditingChanged:" destination="Mp9-8L-WTE" eventType="editingChanged" id="r9e-VF-oJr"/>
                                         <outlet property="delegate" destination="Mp9-8L-WTE" id="DSI-nY-TCa"/>
@@ -56,7 +56,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hoZ-Ht-0R2">
-                                            <rect key="frame" x="36" y="11" width="31" height="20"/>
+                                            <rect key="frame" x="36" y="11" width="306" height="20"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -68,7 +68,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q9W-sn-tlT">
-                                            <rect key="frame" x="36" y="42" width="38" height="17.5"/>
+                                            <rect key="frame" x="36" y="42" width="307.5" height="17.5"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                             <color key="textColor" red="0.80392156862745101" green="0.80392156862745101" blue="0.80392156862745101" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
@@ -85,9 +85,11 @@
                                         <constraint firstItem="D6G-nt-kpo" firstAttribute="top" secondItem="PTv-lC-4bE" secondAttribute="bottom" constant="5" id="9CM-5p-7Q1"/>
                                         <constraint firstAttribute="trailing" secondItem="PTv-lC-4bE" secondAttribute="trailing" constant="39" id="I0c-dH-JhP"/>
                                         <constraint firstItem="PTv-lC-4bE" firstAttribute="centerY" secondItem="hoZ-Ht-0R2" secondAttribute="centerY" id="dBA-Fv-Fdf"/>
+                                        <constraint firstItem="PTv-lC-4bE" firstAttribute="leading" secondItem="hoZ-Ht-0R2" secondAttribute="trailing" constant="8" id="dHM-fI-jXG"/>
                                         <constraint firstItem="hoZ-Ht-0R2" firstAttribute="top" secondItem="zIr-iW-i67" secondAttribute="topMargin" id="jKy-ZE-GMV"/>
                                         <constraint firstItem="PTv-lC-4bE" firstAttribute="top" secondItem="zIr-iW-i67" secondAttribute="top" constant="6" id="jjr-E4-P6S"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="D6G-nt-kpo" secondAttribute="bottom" constant="5" id="krV-Z4-92s"/>
+                                        <constraint firstItem="D6G-nt-kpo" firstAttribute="leading" secondItem="q9W-sn-tlT" secondAttribute="trailing" constant="8" id="n2X-s5-QnV"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="q9W-sn-tlT" secondAttribute="bottom" constant="4.5" id="nd0-cc-2ic"/>
                                         <constraint firstItem="hoZ-Ht-0R2" firstAttribute="leading" secondItem="zIr-iW-i67" secondAttribute="leadingMargin" constant="16" id="uPD-uM-v37"/>
                                         <constraint firstItem="PTv-lC-4bE" firstAttribute="centerX" secondItem="D6G-nt-kpo" secondAttribute="centerX" id="wuB-sh-C7J"/>
@@ -151,7 +153,7 @@
                                                 <color key="backgroundColor" red="0.1137254902" green="0.30196078430000001" blue="0.47843137250000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="hPh-do-rDS" id="08H-eF-ab6"/>
                                                 </connections>
@@ -172,7 +174,7 @@
                                                 <color key="backgroundColor" red="0.1137254902" green="0.30196078430000001" blue="0.47843137250000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="hPh-do-rDS" id="GbF-qF-bnn"/>
                                                 </connections>
@@ -193,7 +195,7 @@
                                                 <color key="backgroundColor" red="0.1137254902" green="0.30196078430000001" blue="0.47843137250000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="hPh-do-rDS" id="CR6-Mj-flx"/>
                                                 </connections>
@@ -214,7 +216,7 @@
                                                 <color key="backgroundColor" red="0.1137254902" green="0.30196078430000001" blue="0.47843137250000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="hPh-do-rDS" id="wT2-25-yVL"/>
                                                 </connections>
@@ -249,7 +251,7 @@
                                                 <color key="backgroundColor" red="0.1137254902" green="0.30196078430000001" blue="0.47843137250000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="hPh-do-rDS" id="5uj-Vz-bOB"/>
                                                 </connections>
@@ -285,6 +287,12 @@
                                             <action selector="choosePhotoSource:" destination="hPh-do-rDS" id="kpY-c4-6BC"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="zAq-dv-XUh"/>
+                                    <barButtonItem systemItem="trash" id="jVz-Ca-rGk">
+                                        <connections>
+                                            <action selector="deleteItem:" destination="hPh-do-rDS" id="k8T-hR-kYX"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -313,6 +321,7 @@
                         <outlet property="genreTextField" destination="JeP-Uk-RDj" id="vSK-JG-bMe"/>
                         <outlet property="lengthTextField" destination="94I-x4-dsv" id="FEF-xb-iRB"/>
                         <outlet property="titleTextField" destination="3nc-ih-1cT" id="Rmd-oM-06w"/>
+                        <outlet property="toolbar" destination="PNa-5J-9xF" id="fqX-nE-q9v"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qay-ix-FyW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
