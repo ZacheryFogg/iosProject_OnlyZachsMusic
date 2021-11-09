@@ -124,17 +124,23 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        songItem.title = titleTextField.text ?? "Unknown"
-        songItem.artists = artistsTextField.text ?? "Unknown" //todo: split input on comma maybe
+        let newTitle = titleTextField.text ?? "Unknown"
+        songItem.title = newTitle != "" ? newTitle : "Unknown"
+        
+        let newArtists = artistsTextField.text ?? "Unknown"
+        songItem.artists = newArtists != "" ? newArtists : "Unknown" //todo: split input on comma maybe
         
         // If genre changed then songItem will need to be reinserted to another genre section
         if songItem.genre != genreTextField.text{
-            let newGenre = genreTextField.text ?? "Undecided"
+            var newGenre = genreTextField.text ?? "Undecided"
+            newGenre = newGenre != "" ? newGenre : "Undecided"
             
             let itemViewController = self.navigationController?.viewControllers.first as! ItemsViewController
             itemViewController.songItemStore.reinsertToCorrectGenre(songItem: songItem, newGenre: newGenre)
         }
-        songItem.length = lengthTextField.text ?? "0:00"
+        
+        let newLength = lengthTextField.text ?? "0:00"
+        songItem.length = newLength != "" ? newLength : "Unknown"
         songItem.desc = descTextField.text ?? "He must no like it very much"
                         
         
